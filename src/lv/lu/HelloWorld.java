@@ -6,4 +6,8 @@ public class HelloWorld {
         System.out.println("Hello git");
     }
 
+    private static void printMessage(String msg) {
+        System.out.println(msg);
+
+    }
 }
