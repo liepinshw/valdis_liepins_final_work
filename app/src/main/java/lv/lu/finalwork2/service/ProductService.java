@@ -1,9 +1,12 @@
 package lv.lu.finalwork2.service;
 
 import lv.lu.finalwork2.model.ItemNotFoundException;
-import lv.lu.finalwork2.model.Product;
+import lv.lu.finalwork2.model.repository.Product;
+import lv.lu.finalwork2.model.repository.ProductCategory;
+import lv.lu.finalwork2.model.ui.ProductInputData;
 import lv.lu.finalwork2.repository.ProductRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +18,17 @@ public class ProductService {
         this.repository = new ProductRepository();
     }
 
-    public void save(Product product) {
+    public void save(ProductInputData productInputData) {
+        Product product = new Product();
+        product.setName(productInputData.getName());
+        product.setPrice(BigDecimal.valueOf(productInputData.getPrice()));
+        product.setCategory(ProductCategory.valueOf(productInputData.getCategory()));
+        if (productInputData.getDiscount()!= null) {
+            product.setDiscount(BigDecimal.valueOf(productInputData.getDiscount()));
+        }
+        if (productInputData.getDescription()!= null) {
+            product.setDescription(productInputData.getDescription());
+        }
 
         repository.save(product);
 

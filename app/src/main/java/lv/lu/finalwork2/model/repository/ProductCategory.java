@@ -1,4 +1,4 @@
-package lv.lu.finalwork2.model;
+package lv.lu.finalwork2.model.repository;
 
 public enum ProductCategory {
 

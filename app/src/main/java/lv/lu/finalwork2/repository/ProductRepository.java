@@ -1,6 +1,6 @@
 package lv.lu.finalwork2.repository;
 
-import lv.lu.finalwork2.model.Product;
+import lv.lu.finalwork2.model.repository.Product;
 
 import java.util.*;
 
