@@ -3,14 +3,13 @@ package lv.lu.finalwork2.repository;
 import java.util.List;
 import java.util.Optional;
 
-public interface Repository <T> {
+public interface Repository<T> {
 
-    Long save (T entity);
+    Long save(T entity);
 
     List<T> findAll();
 
     Optional<T> findById(Long id);
 
     void delete(Long id);
-
 }

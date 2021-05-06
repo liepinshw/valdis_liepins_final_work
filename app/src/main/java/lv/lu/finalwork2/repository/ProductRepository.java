@@ -1,21 +1,22 @@
 package lv.lu.finalwork2.repository;
 
-import lv.lu.finalwork2.model.repository.Product;
+import lv.lu.finalwork2.domain.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+//@org.springframework.stereotype.Repository
 public class ProductRepository implements Repository<Product> {
-
 
     private final Map<Long, Product> repository;
     private Long idCounter = 0L;
 
+    @Autowired
     public ProductRepository(Map<Long, Product> repository) {
         this.repository = repository;
-    }
-
-    public ProductRepository() {
-        this.repository = new HashMap<>();
     }
 
     @Override
@@ -23,7 +24,6 @@ public class ProductRepository implements Repository<Product> {
         productEntity.setId(idCounter);
         repository.put(idCounter, productEntity);
         return idCounter++;
-
     }
 
     @Override
@@ -39,6 +39,5 @@ public class ProductRepository implements Repository<Product> {
     @Override
     public void delete(Long id) {
         repository.remove(id);
-
     }
 }

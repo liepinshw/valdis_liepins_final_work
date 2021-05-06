@@ -1,15 +1,32 @@
-package lv.lu.finalwork2.model.repository;
+package lv.lu.finalwork2.domain;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Entity(name = "PRODUCTS")
+@Table(name = "PRODUCTS")
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
+
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false)
     private ProductCategory category;
+
+    @Column(name = "discount")
     private BigDecimal discount;
+
+    @Column(name = "description")
     private String description;
 
     @Override

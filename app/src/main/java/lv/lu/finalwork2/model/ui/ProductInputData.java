@@ -8,7 +8,6 @@ public class ProductInputData {
     private Double discount;
     private String description;
 
-
     public String getName() {
         return name;
     }

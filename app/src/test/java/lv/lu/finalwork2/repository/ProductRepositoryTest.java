@@ -1,6 +1,6 @@
 package lv.lu.finalwork2.repository;
 
-import lv.lu.finalwork2.model.repository.Product;
+import lv.lu.finalwork2.domain.Product;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,9 +16,8 @@ public class ProductRepositoryTest {
     private Map<Long, Product> repositoryMock;
     private ProductRepository victim;
 
-    @Before // insert tear up
+    @Before
     public void setUp() throws Exception {
-
         repositoryMock = new HashMap<>();
         victim = new ProductRepository(repositoryMock);
     }
@@ -45,7 +44,6 @@ public class ProductRepositoryTest {
         Optional<Product> result = victim.findById(1L);
         assertTrue(result.isPresent());
         assertSame(orange, result.get());
-
     }
 
     @Test
@@ -61,7 +59,6 @@ public class ProductRepositoryTest {
         victim.delete(1L);
 
         assertTrue(repositoryMock.isEmpty());
-
     }
 
     @Test
@@ -75,6 +72,5 @@ public class ProductRepositoryTest {
 
         assertTrue(repositoryMock.containsKey(productId));
         assertEquals(orange, repositoryMock.get(productId));
-
     }
 }

@@ -1,57 +1,68 @@
 package lv.lu.finalwork2.service;
 
+import lv.lu.finalwork2.domain.Product;
 import lv.lu.finalwork2.model.ItemNotFoundException;
-import lv.lu.finalwork2.model.repository.Product;
-import lv.lu.finalwork2.model.repository.ProductCategory;
+import lv.lu.finalwork2.model.ui.ProductData;
 import lv.lu.finalwork2.model.ui.ProductInputData;
-import lv.lu.finalwork2.repository.ProductRepository;
+import lv.lu.finalwork2.repository.Repository;
+import lv.lu.finalwork2.validation.ProductValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Service
 public class ProductService {
 
-    private ProductRepository repository;
+    private final Repository<Product> repository;
+    private final ProductMapper mapper;
+    private final ProductValidator productValidator;
 
-    public ProductService() {
-        this.repository = new ProductRepository();
+    @Autowired
+    public ProductService(Repository<Product> repository,
+                          ProductMapper mapper,
+                          ProductValidator productValidator) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.productValidator = productValidator;
     }
 
     public void save(ProductInputData productInputData) {
-        Product product = new Product();
-        product.setName(productInputData.getName());
-        product.setPrice(BigDecimal.valueOf(productInputData.getPrice()));
-        product.setCategory(ProductCategory.valueOf(productInputData.getCategory()));
-        if (productInputData.getDiscount()!= null) {
-            product.setDiscount(BigDecimal.valueOf(productInputData.getDiscount()));
-        }
-        if (productInputData.getDescription()!= null) {
-            product.setDescription(productInputData.getDescription());
-        }
-
+        productValidator.validate(productInputData);
+        final Product product = mapper.mapFrom(productInputData);
         repository.save(product);
+    }
 
+    public List<ProductData> findAll() {
+//        List<ProductData> result = new ArrayList<>();
+//        for (Product product : repository.findAll()) {
+//            ProductData productData = mapper.mapFrom(product);
+//            result.add(productData);
+//        }
+//        return result;
+
+        return repository.findAll().stream()
+                .map(mapper::mapFrom)
+                .collect(Collectors.toList());
     }
 
     public Product findById(Long id) {
         if (id == null) {
-            throw new IllegalArgumentException("Product Id cannot be null");
+            throw new IllegalArgumentException("Product Id can't be null");
         }
 
         Optional<Product> result = repository.findById(id);
         if (!result.isPresent()) {
-            throw new ItemNotFoundException(String.format("Product by id: %d is not found", id));
+            throw new ItemNotFoundException(
+                    String.format("Product by id: %d is not found", id));
         }
+
         return result.get();
     }
 
-    public List<Product> findAll() {
-        return null;
-
-    }
-
     public void delete(Long id) {
+
     }
 }
-
